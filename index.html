@@ -1,91 +1,187 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Unity Web Player | Boss Rush</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, viewport-fit=cover" />
 
-    <meta name="viewport"
-          content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <!-- Primary SEO -->
+  <title>Boss Rush: Neon Arena | illusion Arc</title>
+  <meta
+    name="description"
+    content="Play Boss Rush: Neon Arena by illusion Lab on illusion Arc — a fast-paced neon arcade shooter where you survive waves, dodge enemy attacks, and defeat bosses. How to play: move to avoid bullets, attack enemies, collect points, and survive as long as possible to reach higher scores."
+  />
+  <meta
+    name="keywords"
+    content="Boss Rush, Boss Rush Neon Arena, illusion Arc, illusion Lab, Unity WebGL game, arcade shooter, bullet hell, boss fight, neon game, browser game, reflex game"
+  />
+  <meta name="author" content="illusion Lab" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="application-name" content="Boss Rush: Neon Arena" />
 
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background: #000;
-        }
+  <!-- Custom metadata (useful internally / crawlers that read custom tags) -->
+  <meta
+    name="game:how-to-play"
+    content="Use touch or controls to move, dodge enemy bullets, attack enemies and bosses, survive longer, and score as high as possible."
+  />
+  <meta
+    name="game:genre"
+    content="Arcade, Bullet Hell, Reflex, Boss Rush"
+  />
 
-        /* ✅ iframe-safe sizing (avoid position:fixed inside iframe) */
-        #unity-container {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
-        }
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Boss Rush: Neon Arena | illusion Arc" />
+  <meta
+    property="og:description"
+    content="A neon arcade boss-rush shooter built in Unity WebGL. Dodge attacks, defeat bosses, and chase high scores. How to play: move, avoid bullets, attack enemies, and survive."
+  />
+  <meta property="og:image" content="Build/boss2.jpg" />
+  <meta property="og:site_name" content="illusion Arc" />
+  <meta property="og:locale" content="en_US" />
 
-        #unity-canvas {
-            width: 100% !important;
-            height: 100% !important;
-            display: block;
-            background: url('Build/boss2.jpg') center / cover no-repeat;
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Boss Rush: Neon Arena | illusion Arc" />
+  <meta
+    name="twitter:description"
+    content="Unity WebGL neon boss-rush shooter. Dodge bullets, defeat bosses, and set a high score."
+  />
+  <meta name="twitter:image" content="Build/boss2.jpg" />
 
-            /* ✅ important for mobile */
-            touch-action: none;
-            -webkit-user-select: none;
-            user-select: none;
-        }
+  <!-- Mobile / PWA friendliness -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-        /* Optional loading */
-        #loading {
-            position: absolute;
-            left: 16px;
-            right: 16px;
-            bottom: 16px;
-            height: 10px;
-            border-radius: 999px;
-            overflow: hidden;
-            background: rgba(255,255,255,0.12);
-            border: 1px solid rgba(255,255,255,0.18);
-        }
-        #loading > div {
-            height: 100%;
-            width: 0%;
-            background: rgba(34,211,238,0.9);
-            transition: width .15s linear;
-        }
-    </style>
+  <!-- Structured data (Game metadata + how to play in description) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "VideoGame",
+    "name": "Boss Rush: Neon Arena",
+    "author": {
+      "@type": "Organization",
+      "name": "illusion Lab"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "illusion Arc"
+    },
+    "applicationCategory": "Game",
+    "operatingSystem": "Web Browser",
+    "genre": ["Arcade", "Bullet Hell", "Boss Rush"],
+    "image": "Build/boss2.jpg",
+    "description": "Boss Rush: Neon Arena is a fast-paced neon arcade shooter built with Unity WebGL. How to play: move to dodge bullets and enemy attacks, attack enemies and bosses, survive as long as possible, and score high."
+  }
+  </script>
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+    }
+
+    /* iframe-safe sizing (avoid position: fixed inside iframe) */
+    #unity-container {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+    }
+
+    #unity-canvas {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+      background: url('Build/boss2.jpg') center / cover no-repeat;
+
+      /* important for mobile */
+      touch-action: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    /* Optional loading bar */
+    #loading {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      height: 10px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    #loading > div {
+      height: 100%;
+      width: 0%;
+      background: rgba(34, 211, 238, 0.9);
+      transition: width 0.15s linear;
+    }
+
+    /* Accessibility helper (hidden text for crawlers/screen readers) */
+    .sr-only {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+  </style>
 </head>
 
 <body>
-<div id="unity-container">
-    <canvas id="unity-canvas" tabindex="-1"></canvas>
-    <div id="loading"><div id="bar"></div></div>
-</div>
+  <!-- Visible game area -->
+  <div id="unity-container" role="application" aria-label="Boss Rush: Neon Arena Unity WebGL Game">
+    <canvas id="unity-canvas" tabindex="-1" aria-label="Boss Rush: Neon Arena game canvas"></canvas>
+    <div id="loading" aria-hidden="true"><div id="bar"></div></div>
+  </div>
 
-<script src="Build/boss2.loader.js"></script>
-<script>
+  <!-- Hidden text content to support SEO/accessibility -->
+  <div class="sr-only">
+    <h1>Boss Rush: Neon Arena</h1>
+    <p>
+      Boss Rush: Neon Arena is a fast-paced arcade shooter by illusion Lab.
+      How to play: move your character to dodge enemy bullets, attack enemies and bosses,
+      survive as long as possible, and score higher by staying alive and defeating targets.
+    </p>
+  </div>
+
+  <script src="Build/boss2.loader.js"></script>
+  <script>
     const canvas = document.querySelector("#unity-canvas");
     const container = document.querySelector("#unity-container");
     const bar = document.querySelector("#bar");
     const loading = document.querySelector("#loading");
 
     function resize() {
-        // ensure the canvas always matches the container box
-        const w = container.clientWidth;
-        const h = container.clientHeight;
-        canvas.style.width = w + "px";
-        canvas.style.height = h + "px";
+      // Ensure the canvas always matches the container box
+      const w = container.clientWidth;
+      const h = container.clientHeight;
+      canvas.style.width = w + "px";
+      canvas.style.height = h + "px";
     }
 
     resize();
     window.addEventListener("resize", resize);
     window.addEventListener("orientationchange", () => setTimeout(resize, 200));
 
-    createUnityInstance(canvas, {
+    createUnityInstance(
+      canvas,
+      {
         arguments: [],
         dataUrl: "Build/boss2.data.unityweb",
         frameworkUrl: "Build/boss2.framework.js.unityweb",
@@ -93,15 +189,16 @@
         streamingAssetsUrl: "StreamingAssets",
         companyName: "illusion Lab",
         productName: "Boss Rush",
-        productVersion: "0.11",
-        // devicePixelRatio: 1, // (optional) set to 1 for better mobile performance
-    }, (progress) => {
-        // progress 0..1
+        productVersion: "0.11"
+        // devicePixelRatio: 1 // Optional: improve mobile performance
+      },
+      (progress) => {
         if (bar) bar.style.width = Math.round(progress * 100) + "%";
         if (progress >= 0.99 && loading) loading.style.display = "none";
-    }).catch((message) => {
-        alert(message);
+      }
+    ).catch((message) => {
+      alert(message);
     });
-</script>
+  </script>
 </body>
 </html>
