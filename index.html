@@ -3,7 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta
+    name="viewport"
+    content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, viewport-fit=cover"
+  />
 
   <!-- Primary SEO -->
   <title>Boss Rush: Neon Arena | illusion Arc</title>
@@ -20,15 +23,12 @@
   <meta name="theme-color" content="#000000" />
   <meta name="application-name" content="Boss Rush: Neon Arena" />
 
-  <!-- Custom metadata (useful internally / crawlers that read custom tags) -->
+  <!-- Custom metadata -->
   <meta
     name="game:how-to-play"
     content="Use touch or controls to move, dodge enemy bullets, attack enemies and bosses, survive longer, and score as high as possible."
   />
-  <meta
-    name="game:genre"
-    content="Arcade, Bullet Hell, Reflex, Boss Rush"
-  />
+  <meta name="game:genre" content="Arcade, Bullet Hell, Reflex, Boss Rush" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
@@ -55,26 +55,26 @@
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-  <!-- Structured data (Game metadata + how to play in description) -->
+  <!-- Structured data -->
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "VideoGame",
-    "name": "Boss Rush: Neon Arena",
-    "author": {
-      "@type": "Organization",
-      "name": "illusion Lab"
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "illusion Arc"
-    },
-    "applicationCategory": "Game",
-    "operatingSystem": "Web Browser",
-    "genre": ["Arcade", "Bullet Hell", "Boss Rush"],
-    "image": "Build/boss2.jpg",
-    "description": "Boss Rush: Neon Arena is a fast-paced neon arcade shooter built with Unity WebGL. How to play: move to dodge bullets and enemy attacks, attack enemies and bosses, survive as long as possible, and score high."
-  }
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoGame",
+      "name": "Boss Rush: Neon Arena",
+      "author": {
+        "@type": "Organization",
+        "name": "illusion Lab"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "illusion Arc"
+      },
+      "applicationCategory": "Game",
+      "operatingSystem": "Web Browser",
+      "genre": ["Arcade", "Bullet Hell", "Boss Rush"],
+      "image": "Build/boss2.jpg",
+      "description": "Boss Rush: Neon Arena is a fast-paced neon arcade shooter built with Unity WebGL. How to play: move to dodge bullets and enemy attacks, attack enemies and bosses, survive as long as possible, and score high."
+    }
   </script>
 
   <style>
@@ -87,38 +87,88 @@
       background: #000;
     }
 
-    /* iframe-safe sizing (avoid position: fixed inside iframe) */
+    /* iframe-safe sizing */
     #unity-container {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       background: #000;
+      overflow: hidden;
     }
 
     #unity-canvas {
       width: 100% !important;
       height: 100% !important;
       display: block;
-      background: url('Build/boss2.jpg') center / cover no-repeat;
-
-      /* important for mobile */
+      background: url("Build/boss2.jpg") center / cover no-repeat;
       touch-action: none;
       -webkit-user-select: none;
       user-select: none;
     }
 
-    /* Optional loading bar */
-    #loading {
+    /* Lottie Loader Overlay */
+    #loader-overlay {
       position: absolute;
-      left: 16px;
-      right: 16px;
-      bottom: 16px;
+      inset: 0;
+      z-index: 10;
+      display: grid;
+      place-items: center;
+      background: rgba(0, 0, 0, 0.92);
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.35s ease, visibility 0.35s ease;
+      pointer-events: none; /* iframe-safe, prevents blocking weird input issues */
+    }
+
+    #loader-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loader-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: min(90vw, 360px);
+      padding: 16px;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    #lottie-loader {
+      width: min(38vw, 190px);
+      height: min(38vw, 190px);
+      max-width: 190px;
+      max-height: 190px;
+      min-width: 100px;
+      min-height: 100px;
+    }
+
+    #loading-text {
+      color: rgba(255, 255, 255, 0.92);
+      font: 600 14px/1.2 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      letter-spacing: 0.2px;
+    }
+
+    #loading-percent {
+      color: rgba(255, 255, 255, 0.72);
+      font: 500 12px/1 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      margin-top: -2px;
+    }
+
+    /* Progress bar */
+    #loading {
+      width: min(90vw, 420px);
       height: 10px;
       border-radius: 999px;
       overflow: hidden;
       background: rgba(255, 255, 255, 0.12);
       border: 1px solid rgba(255, 255, 255, 0.18);
+      box-sizing: border-box;
+      margin-top: 6px;
     }
 
     #loading > div {
@@ -128,7 +178,7 @@
       transition: width 0.15s linear;
     }
 
-    /* Accessibility helper (hidden text for crawlers/screen readers) */
+    /* Hidden text for SEO/accessibility */
     .sr-only {
       position: absolute !important;
       width: 1px !important;
@@ -147,10 +197,19 @@
   <!-- Visible game area -->
   <div id="unity-container" role="application" aria-label="Boss Rush: Neon Arena Unity WebGL Game">
     <canvas id="unity-canvas" tabindex="-1" aria-label="Boss Rush: Neon Arena game canvas"></canvas>
-    <div id="loading" aria-hidden="true"><div id="bar"></div></div>
+
+    <!-- Custom Loader (Lottie + progress) -->
+    <div id="loader-overlay" aria-hidden="true">
+      <div class="loader-center">
+        <div id="lottie-loader" aria-label="Game loading animation"></div>
+        <div id="loading-text">Loading Boss Rush: Neon Arena...</div>
+        <div id="loading-percent">0%</div>
+        <div id="loading"><div id="bar"></div></div>
+      </div>
+    </div>
   </div>
 
-  <!-- Hidden text content to support SEO/accessibility -->
+  <!-- Hidden text content for SEO/accessibility -->
   <div class="sr-only">
     <h1>Boss Rush: Neon Arena</h1>
     <p>
@@ -160,25 +219,83 @@
     </p>
   </div>
 
+  <!-- Unity Loader -->
   <script src="Build/boss2.loader.js"></script>
+
+  <!-- Lottie Web -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+
   <script>
     const canvas = document.querySelector("#unity-canvas");
     const container = document.querySelector("#unity-container");
     const bar = document.querySelector("#bar");
-    const loading = document.querySelector("#loading");
+    const loadingPercent = document.querySelector("#loading-percent");
+    const loaderOverlay = document.querySelector("#loader-overlay");
+    const lottieEl = document.querySelector("#lottie-loader");
 
-    function resize() {
-      // Ensure the canvas always matches the container box
+    let unityInstance = null;
+    let loaderAnim = null;
+
+    function safeLoadLottie() {
+      if (!window.lottie || !lottieEl) return null;
+
+      // ✅ Put One.json in same folder as index.html OR change path below (e.g. "Build/One.json")
+      return window.lottie.loadAnimation({
+        container: lottieEl,
+        renderer: "svg",
+        loop: true,
+        autoplay: true,
+        path: "One.json"
+      });
+    }
+
+    function resizeCanvasCss() {
       const w = container.clientWidth;
       const h = container.clientHeight;
       canvas.style.width = w + "px";
       canvas.style.height = h + "px";
     }
 
-    resize();
-    window.addEventListener("resize", resize);
-    window.addEventListener("orientationchange", () => setTimeout(resize, 200));
+    function updateProgress(progress) {
+      const pct = Math.max(0, Math.min(100, Math.round(progress * 100)));
+      if (bar) bar.style.width = pct + "%";
+      if (loadingPercent) loadingPercent.textContent = pct + "%";
+    }
 
+    function hideLoader() {
+      if (!loaderOverlay) return;
+
+      loaderOverlay.classList.add("hidden");
+
+      // Give fade-out time, then destroy/remove
+      window.setTimeout(() => {
+        try {
+          if (loaderAnim) loaderAnim.destroy();
+        } catch (e) {
+          // no-op
+        }
+        if (loaderOverlay && loaderOverlay.parentNode) {
+          loaderOverlay.parentNode.removeChild(loaderOverlay);
+        }
+      }, 420);
+    }
+
+    function showLoaderError(message) {
+      const loadingText = document.querySelector("#loading-text");
+      if (loadingText) loadingText.textContent = "Failed to load game";
+      if (loadingPercent) loadingPercent.textContent = "";
+      alert(message);
+    }
+
+    // Initial layout
+    resizeCanvasCss();
+    window.addEventListener("resize", resizeCanvasCss);
+    window.addEventListener("orientationchange", () => setTimeout(resizeCanvasCss, 200));
+
+    // Start custom animation
+    loaderAnim = safeLoadLottie();
+
+    // Create Unity instance
     createUnityInstance(
       canvas,
       {
@@ -189,16 +306,31 @@
         streamingAssetsUrl: "StreamingAssets",
         companyName: "illusion Lab",
         productName: "Boss Rush",
-        productVersion: "0.11"
-        // devicePixelRatio: 1 // Optional: improve mobile performance
+        productVersion: "0.11",
+        // devicePixelRatio: 1 // Optional for mobile performance
       },
       (progress) => {
-        if (bar) bar.style.width = Math.round(progress * 100) + "%";
-        if (progress >= 0.99 && loading) loading.style.display = "none";
+        updateProgress(progress);
+
+        // Hide loader near completion
+        if (progress >= 0.99) {
+          hideLoader();
+        }
       }
-    ).catch((message) => {
-      alert(message);
-    });
+    )
+      .then((instance) => {
+        unityInstance = instance;
+        // Fallback hide in case progress callback didn't hit >=0.99 exactly
+        setTimeout(() => hideLoader(), 150);
+      })
+      .catch((message) => {
+        try {
+          if (loaderAnim) loaderAnim.destroy();
+        } catch (e) {
+          // no-op
+        }
+        showLoaderError(message);
+      });
   </script>
 </body>
 </html>
